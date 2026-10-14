@@ -1,9 +1,10 @@
+import { API_BASE_URL } from '../config';
 import { authFetch } from '../services/http';
 import { solicitarRecuperacion } from '../services/authService';
 import SubidaImagen from '../components/SubidaImagen';
 import React, { useState, useEffect } from 'react';
 
-const API_URL = 'http://localhost:8080/api/usuarios';
+const API_URL = `${API_BASE_URL}/api/usuarios`;
 
 const ROL_CONFIG = {
   Administrador: { bg: '#f3e8ff', color: '#7e22ce', border: '#d8b4fe', dot: '#a855f7' },

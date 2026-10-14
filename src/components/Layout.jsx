@@ -1,4 +1,5 @@
 import { authFetch } from '../services/http';
+import { API_BASE_URL } from '../config';   // <-- nuevo
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { logoutUsuario } from '../services/authService';
@@ -118,7 +119,7 @@ const Layout = () => {
   useEffect(() => {
     const fetchPendientes = async () => {
       try {
-        const response = await authFetch('http://localhost:8080/api/cotizaciones');
+        const response = await authFetch(`${API_BASE_URL}/api/cotizaciones`);
         if (response.ok) {
           const data = await response.json();
           const soloPendientes = data.filter(c => c.estado === 'Pendiente');
@@ -133,7 +134,7 @@ const Layout = () => {
 
     const fetchContactos = async () => {
       try {
-        const response = await authFetch('http://localhost:8080/api/contactos');
+        const response = await authFetch(`${API_BASE_URL}/api/contactos`);
         if (response.ok) {
           const data = await response.json();
           setTotalContactos(data.total ?? 0);

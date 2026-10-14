@@ -1,3 +1,4 @@
+import { API_BASE_URL } from '../config';
 import { authFetch } from '../services/http';
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
@@ -388,7 +389,7 @@ const LandingPage = () => {
     if (raw) {
       const user = JSON.parse(raw);
       setUsuario(user);
-      authFetch(`http://localhost:8080/api/cotizaciones/usuario/${user.id}`)
+      authFetch(`${API_BASE_URL}/api/cotizaciones/usuario/${user.id}`)
         .then(r => r.ok ? r.json() : [])
         .then(d => setAprobados(d.filter(c => c.estado === 'Aprobado').length))
         .catch(() => {});
@@ -424,6 +425,11 @@ const LandingPage = () => {
 
   const initials = (u) =>
     `${u.nombres?.[0] ?? ''}${u.apellidos?.[0] ?? ''}`.toUpperCase();
+
+  // Misma regla que usan Login, Registro y RutaProtegida
+  const esAdmin = ['administrador', 'admin'].includes(
+    (usuario?.tipoUsuario || '').trim().toLowerCase()
+  );
 
   // Artículos destacados para el hero (primeros 3)
   const heroArticulos = articulos.slice(0, 3);
@@ -465,6 +471,11 @@ const LandingPage = () => {
         </ul>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          {esAdmin && (
+            <button className="chi-btn-outline" onClick={() => navigate('/admin')}>
+              Panel de administración
+            </button>
+          )}
           {usuario ? (
             <div ref={dropRef} style={{ position: 'relative' }}>
               <button className="chi-user-btn" onClick={() => setDropdown(d => !d)}>

@@ -1,9 +1,10 @@
+import { API_BASE_URL } from '../config';
 import { authFetch } from '../services/http';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { obtenerCotizaciones, crearCotizacion, actualizarCotizacion, eliminarCotizacion, cambiarEstadoCotizacion } from '../services/cotizacionesService';
 
-const API_USUARIOS = 'http://localhost:8080/api/usuarios';
+const API_USUARIOS = `${API_BASE_URL}/api/usuarios`;
 
 const ESTADO_CONFIG = {
   Aprobado:  { bg: '#dcfce7', color: '#15803d', border: '#86efac', dot: '#22c55e', label: 'Aprobado' },

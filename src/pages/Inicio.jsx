@@ -1,3 +1,4 @@
+import { API_BASE_URL } from '../config';
 import { authFetch } from '../services/http';
 import React, { useState, useEffect } from 'react';
 import {
@@ -6,7 +7,7 @@ import {
 } from 'recharts';
 import { obtenerCotizaciones } from '../services/cotizacionesService';
 
-const API_USUARIOS = 'http://localhost:8080/api/usuarios';
+const API_USUARIOS = `${API_BASE_URL}/api/usuarios`;
 
 // ─── Tokens ──────────────────────────────────────────────────────────────────
 const FONT = "'Inter', -apple-system, BlinkMacSystemFont, sans-serif";

@@ -6,13 +6,17 @@ const API_URL = `${API_BASE_URL}/api/usuarios`;
 const TOKEN_KEY = 'chicaeme_token';
 const USUARIO_KEY = 'usuarioChicaeme'; // se mantiene el mismo nombre que ya usa el resto del proyecto
 
+// Evita la página de advertencia de ngrok (plan gratuito). Con cualquier valor basta.
+// Se puede quitar cuando el backend ya no esté detrás de ngrok.
+export const NGROK_HEADER = { 'ngrok-skip-browser-warning': 'true' };
+
 export const loginUsuario = async (email, password) => {
     try {
-        // Hacemos exactamente lo mismo que hiciste en Thunder Client: un POST con JSON
         const response = await fetch(`${API_URL}/login`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                ...NGROK_HEADER
             },
             body: JSON.stringify({ email, password })
         });
@@ -22,8 +26,7 @@ export const loginUsuario = async (email, password) => {
             throw new Error('Correo o contraseña incorrectos');
         }
 
-        // IMPORTANTE: desde que se agregó JWT en el backend, /login ya NO devuelve
-        // el usuario directamente. Ahora devuelve { token, usuario }.
+        // /login devuelve { token, usuario }
         const data = await response.json();
 
         // Guardamos el token (lo necesita cada petición protegida) y el usuario
@@ -46,7 +49,7 @@ export const loginUsuario = async (email, password) => {
 export const loginConGoogle = async (idToken, aceptoTerminos = false) => {
     const response = await fetch(`${API_URL}/google-login`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', ...NGROK_HEADER },
         body: JSON.stringify({ idToken, aceptoTerminos })
     });
 
@@ -66,11 +69,11 @@ export const loginConGoogle = async (idToken, aceptoTerminos = false) => {
 
 // Pide el enlace de recuperación. El backend SIEMPRE responde con el mismo
 // texto (exista o no el correo), y en TEXTO PLANO, no JSON — por eso .text()
-// y no .json() (si no, truena igual que nos pasó con ContactosAdmin).
+// y no .json().
 export const solicitarRecuperacion = async (email) => {
     const response = await fetch(`${API_URL}/forgot-password`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', ...NGROK_HEADER },
         body: JSON.stringify({ email })
     });
     return await response.text();
@@ -78,11 +81,11 @@ export const solicitarRecuperacion = async (email) => {
 
 // Restablece la contraseña con el token que llegó por correo.
 // También responde en texto plano, y aquí SÍ nos interesa si fue error o no
-// (token vencido/ inválido), por eso revisamos response.ok.
+// (token vencido/inválido), por eso revisamos response.ok.
 export const restablecerPassword = async (token, password) => {
     const response = await fetch(`${API_URL}/reset-password`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', ...NGROK_HEADER },
         body: JSON.stringify({ token, password })
     });
 
@@ -102,9 +105,13 @@ export const logoutUsuario = () => {
 
 export const getToken = () => localStorage.getItem(TOKEN_KEY);
 
-// Header listo para pegar en cualquier fetch protegido.
-// Si no hay token todavía, no agrega nada (así no rompe los endpoints públicos).
+// Headers listos para cualquier fetch (lo usa authFetch en http.js).
+// Siempre incluye el header de ngrok; el token solo se agrega si hay sesión,
+// así no rompe los endpoints públicos.
 export const authHeader = () => {
     const token = getToken();
-    return token ? { Authorization: `Bearer ${token}` } : {};
+    return {
+        ...NGROK_HEADER,
+        ...(token ? { Authorization: `Bearer ${token}` } : {})
+    };
 };

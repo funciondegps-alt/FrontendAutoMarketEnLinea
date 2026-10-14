@@ -1,3 +1,4 @@
+import { API_BASE_URL } from '../config';
 import { authFetch } from '../services/http';
 import React, { useState, useEffect, useMemo } from 'react';
 
@@ -20,7 +21,7 @@ const ContactosAdmin = () => {
     try {
       setLoading(true);
       setError(null);
-      const res = await authFetch('http://localhost:8080/api/contactos');
+      const res = await authFetch(`${API_BASE_URL}/api/contactos`);
       const data = await res.json();
       if (res.ok && data.success) {
         // Más recientes primero
@@ -46,7 +47,7 @@ const ContactosAdmin = () => {
   const handleEliminar = async (id) => {
     try {
       setEliminando(id);
-      const res = await authFetch(`http://localhost:8080/api/contactos/${id}`, {
+      const res = await authFetch(`${API_BASE_URL}/api/contactos/${id}`, {
         method: 'DELETE',
       });
       if (res.ok) {

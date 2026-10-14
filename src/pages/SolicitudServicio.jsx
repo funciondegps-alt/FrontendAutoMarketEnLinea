@@ -1,3 +1,4 @@
+import { API_BASE_URL } from '../config';
 import { authFetch } from '../services/http';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -18,7 +19,7 @@ const SolicitudServicio = () => {
       // 2. Consulta rápida para saber si Don Pedro aprobó algo
       const revisarEstadoPedidos = async () => {
         try {
-          const response = await authFetch(`http://localhost:8080/api/cotizaciones/usuario/${user.id}`);
+          const response = await authFetch(`${API_BASE_URL}/api/cotizaciones/usuario/${user.id}`);
           if (response.ok) {
             const data = await response.json();
             // Filtramos solo las que están "Aprobado" para avisarle al cliente

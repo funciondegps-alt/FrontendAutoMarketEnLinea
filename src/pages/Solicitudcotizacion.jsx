@@ -274,7 +274,7 @@ const SolicitudCotizacion = () => {
 
     try {
       setLoading(true);
-      const res = await authFetch('http://localhost:8080/api/cotizaciones', {
+      const res = await authFetch(`${API_BASE_URL}/api/cotizaciones`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
