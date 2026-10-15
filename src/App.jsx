@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 // Importamos el Layout (para el admin) y las páginas de cliente
+import Pagos from './pages/Pagos';
 import Layout from './components/Layout';
 import RutaProtegida from './components/RutaProtegida';
 import Inicio from './pages/Inicio';
@@ -51,13 +52,14 @@ function App() {
 
         {/* 2. RUTA ADMINISTRATIVA (Dashboard) — protegida: exige login + rol admin */}
         <Route path="/admin" element={<RutaProtegida soloAdmin><Layout /></RutaProtegida>}>
-          <Route index element={<Inicio />} />
-          <Route path="usuarios" element={<Usuarios />} />
-          <Route path="cotizaciones" element={<Cotizaciones />} />
-          <Route path="servicios" element={<Servicios />} />
-          <Route path="articulos" element={<ArticulosAlquiler />} />
-          <Route path="pedido/:id/productos" element={<GestionarProductos />} />
-          <Route path="contactos" element={<ContactosAdmin />} />
+        <Route index element={<Inicio />} />
+        <Route path="usuarios" element={<Usuarios />} />
+        <Route path="cotizaciones" element={<Cotizaciones />} />
+        <Route path="pagos" element={<Pagos />} />   {/* ← ESTA LÍNEA */}
+        <Route path="servicios" element={<Servicios />} />
+        <Route path="articulos" element={<ArticulosAlquiler />} />
+        <Route path="pedido/:id/productos" element={<GestionarProductos />} />
+        <Route path="contactos" element={<ContactosAdmin />} />
         </Route>
 
       </Routes>
