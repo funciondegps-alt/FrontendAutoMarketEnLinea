@@ -1,11 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-<<<<<<< HEAD
 // Importamos el Layout (para el admin) y las páginas de cliente
-import Pagos from './pages/Pagos';
-=======
->>>>>>> 88650cd (Actualizacion cotizaciones)
 import Layout from './components/Layout';
 import RutaProtegida from './components/RutaProtegida';
 import Inicio from './pages/Inicio';
@@ -50,16 +46,6 @@ function App() {
         <Route path="/contacto" element={<Contacto />} />
 
         <Route path="/admin" element={<RutaProtegida soloAdmin><Layout /></RutaProtegida>}>
-<<<<<<< HEAD
-        <Route index element={<Inicio />} />
-        <Route path="usuarios" element={<Usuarios />} />
-        <Route path="cotizaciones" element={<Cotizaciones />} />
-        <Route path="pagos" element={<Pagos />} />   {/* ← ESTA LÍNEA */}
-        <Route path="servicios" element={<Servicios />} />
-        <Route path="articulos" element={<ArticulosAlquiler />} />
-        <Route path="pedido/:id/productos" element={<GestionarProductos />} />
-        <Route path="contactos" element={<ContactosAdmin />} />
-=======
           <Route index element={<Inicio />} />
           <Route path="usuarios" element={<Usuarios />} />
           <Route path="cotizaciones" element={<Cotizaciones />} />
@@ -68,7 +54,6 @@ function App() {
           <Route path="articulos" element={<ArticulosAlquiler />} />
           <Route path="pedido/:id/productos" element={<GestionarProductos />} />
           <Route path="contactos" element={<ContactosAdmin />} />
->>>>>>> 88650cd (Actualizacion cotizaciones)
         </Route>
       </Routes>
     </BrowserRouter>
