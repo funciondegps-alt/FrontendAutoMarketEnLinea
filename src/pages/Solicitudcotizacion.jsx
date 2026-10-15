@@ -1,10 +1,13 @@
 import { authFetch } from '../services/http';
+import { API_BASE_URL } from '../config';   // ← ESTA LÍNEA ES LA QUE FALTA
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 const COP = (n) =>
   Number(n).toLocaleString('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 });
+
+// ... el resto del archivo queda exactamente igual
 
 // ─── Styles ───────────────────────────────────────────────────────────────────
 const S = {
