@@ -39,7 +39,7 @@ export const cambiarEstadoCotizacion = async (id, nuevoEstado) => {
   return response;
 };
 
-/** Confirma entrega → En evento. ajustes opcional (objeto cotización con detalles). */
+/** Confirma entrega → estado "En evento" */
 export const confirmarEntrega = async (id, ajustes = null) => {
   const response = await authFetch(`${API_URL}/${id}/confirmar-entrega`, {
     method: 'PUT',
@@ -50,7 +50,7 @@ export const confirmarEntrega = async (id, ajustes = null) => {
 };
 
 /**
- * devolucion = [ { id, cantidadDevueltaBuena, cantidadDanada, cantidadPerdida }, ... ]
+ * detalles = [{ id, cantidadDevueltaBuena, cantidadDanada, cantidadPerdida }, ...]
  * finalizar = true → Finalizado; false → En lavado
  */
 export const registrarDevolucion = async (id, detalles, finalizar = false) => {

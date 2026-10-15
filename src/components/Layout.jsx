@@ -62,7 +62,7 @@ const navItems = [
   { to: '/admin',             label: 'Inicio',                  icon: icons.dashboard },
   { to: '/admin/usuarios',     label: 'Gestión de Usuarios',     icon: icons.users     },
   { to: '/admin/cotizaciones', label: 'Cotizaciones y Eventos',  icon: icons.quotes    },
-  { to: '/admin/pagos',        label: 'Pagos',                   icon: icons.quotes    }, // ← NUEVO
+  { to: '/admin/pagos',        label: 'Pagos',                   icon: icons.quotes    },
   { to: '/admin/servicios',    label: 'Catálogo de Servicios',   icon: icons.services  },
   { to: '/admin/articulos',    label: 'Inventario Alquiler',     icon: icons.inventory },
   { to: '/admin/contactos',    label: 'Contactos Recibidos',     icon: icons.contact   },
@@ -72,6 +72,7 @@ const pageTitles = {
   '/admin':              'Panel de Control',
   '/admin/usuarios':      'Gestión de Usuarios',
   '/admin/cotizaciones':  'Cotizaciones y Eventos',
+  '/admin/pagos':         'Pagos y cuentas por cobrar',
   '/admin/servicios':     'Catálogo de Servicios',
   '/admin/articulos':     'Inventario de Alquiler',
   '/admin/contactos':     'Contactos Recibidos',
