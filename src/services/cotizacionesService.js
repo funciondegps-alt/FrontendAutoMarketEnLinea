@@ -3,46 +3,69 @@ import { API_BASE_URL } from '../config';
 
 const API_URL = `${API_BASE_URL}/api/cotizaciones`;
 
-// 1. OBTENER TODAS (GET)
 export const obtenerCotizaciones = async () => {
-    const response = await authFetch(API_URL);
-    return await response.json();
+  const response = await authFetch(API_URL);
+  return await response.json();
 };
 
-// 2. CREAR (POST)
 export const crearCotizacion = async (cotizacion) => {
-    const response = await authFetch(API_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(cotizacion)
-    });
-    return response;
+  const response = await authFetch(API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(cotizacion),
+  });
+  return response;
 };
 
-// 3. ACTUALIZAR (PUT)
 export const actualizarCotizacion = async (id, cotizacion) => {
-    const response = await authFetch(`${API_URL}/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(cotizacion)
-    });
-    return response;
+  const response = await authFetch(`${API_URL}/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(cotizacion),
+  });
+  return response;
 };
 
-// 4. ELIMINAR (DELETE)
 export const eliminarCotizacion = async (id) => {
-    const response = await authFetch(`${API_URL}/${id}`, {
-        method: 'DELETE'
-    });
-    return response;
+  const response = await authFetch(`${API_URL}/${id}`, { method: 'DELETE' });
+  return response;
 };
 
-// 5. NUEVO MOTOR DE ESTADOS (PUT) - Reemplaza a "aprobarCotizacion"
 export const cambiarEstadoCotizacion = async (id, nuevoEstado) => {
-    // Pasamos el nuevo estado como parámetro de consulta en la URL (?estado=...)
-    const response = await authFetch(`${API_URL}/${id}/estado?estado=${nuevoEstado}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' }
-    });
-    return response;
+  const response = await authFetch(
+    `${API_URL}/${id}/estado?estado=${encodeURIComponent(nuevoEstado)}`,
+    { method: 'PUT', headers: { 'Content-Type': 'application/json' } }
+  );
+  return response;
+};
+
+/** Confirma entrega → En evento. ajustes opcional (objeto cotización con detalles). */
+export const confirmarEntrega = async (id, ajustes = null) => {
+  const response = await authFetch(`${API_URL}/${id}/confirmar-entrega`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: ajustes ? JSON.stringify(ajustes) : undefined,
+  });
+  return response;
+};
+
+/**
+ * devolucion = [ { id, cantidadDevueltaBuena, cantidadDanada, cantidadPerdida }, ... ]
+ * finalizar = true → Finalizado; false → En lavado
+ */
+export const registrarDevolucion = async (id, detalles, finalizar = false) => {
+  const response = await authFetch(`${API_URL}/${id}/devolucion`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ detalles, finalizar }),
+  });
+  return response;
+};
+
+export const marcarLavadoTerminado = async (id) => {
+  const response = await authFetch(`${API_URL}/${id}/lavado-terminado`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+  });
+  return response;
 };
